@@ -1,0 +1,88 @@
+<!-- Navigation bar-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="">EXPENSE TRACKER</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarColor02">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="">Welcome <%= user.name %></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/dashboard">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/users/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+</nav>
+  
+<!-- Messages container-->
+<div class="contanier">
+    <%- include ("./partials/messages") %>
+</div>
+
+<!--View Details-->
+<table class="table table-hover" style="margin:auto; text-align: center;">
+    <thead>
+      <tr>
+        <th scope="col">Sl. No</th>
+        <th scope="col">Reason</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if(user.expense.length >0){%>
+        <% for (var i =1; i <= user.expense.length;  i++ ){%>
+          <tr>
+            <th scope="row"><%= i %></th>
+            <td><%= user.expense[i-1].reason %></td>
+            <td><%= user.expense[i-1].amount %></td>
+            <td><%= user.expense[i-1].date %></td>
+          </tr>
+        <% }; %>
+      <% } else{%>
+        <p style="text-align: center;">No data added yet!</p>
+      <% } %>
+    </tbody>
+</table>
+
+
+<!--Footer-->
+<footer class="page-footer font-small pt-4" id="about" style="background-color: #eeeeee;margin-top:20px; position: absolute; bottom: 0; width: 100%;">
+    <div class="container-fluid text-center text-md-left">
+      <div class="row">
+        <div class="col-md-6 mt-md-0 mt-3">
+          <h5 class="text-uppercase">About the developer</h5>
+          <p>Shrinidhi T S<br>I am a computer science undergraduate.<br>Programmer | Full Stack Web developer.</p>
+        </div>
+        <hr class="clearfix w-100 d-md-none pb-3">
+        <div class="col-md-3 mb-md-0 mb-3">
+        </div>
+        <div class="col-md-3 mb-md-0 mb-3">
+          <h5 class="text-uppercase">Links</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="mailto:shrinidhits1208@gmail.com">Mail me</a>
+            </li>
+            <li>
+              <a href="https://github.com/shrinidhits" target="_blank">Github profile</a>
+            </li>
+            <li>
+              <a href="" >My website</a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/in/shrinidhi-t-s-2601b61a5/" target="_blank">Connect with me on LinkedIn</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright text-center py-3">© 2021 Copyright:
+        <h5>Shrinidhi T S</h5>
+    </div>
+</footer>

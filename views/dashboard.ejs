@@ -1,0 +1,234 @@
+<!-- Navigation bar-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="">EXPENSE TRACKER</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor02">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="">Welcome <%= user.name %></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/users/logout">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Messages container-->
+<div class="contanier">
+  <%- include ("./partials/messages") %>
+</div>
+
+<!-- Display cards-->
+<div class="container-fluid content-row" style="margin:10px 0 10px 0;">
+<div class="row">
+  <div class="col-sm-12 col-lg-6">
+    <div class = "card border-primary mb-3 h-100">
+      <div class="card-header">Your Balance</div>
+      <div class="card-body">
+        <h1 style="font-weight: bolder; font-size: larger;" class=<%= user.balance>0 ? "text-success" :"text-danger"%>><span>&#8377;</span> <%= Math.abs(user.balance) %> <%= user.balance>0? " ": "(You are on credit)" %></h1>
+        <p class=<%= user.balance>0 ? "text-success" :"text-danger"%>>You <%= user.balance>0? "": "not"%> have managed your money responsibly!!</p>
+        <button type="button" class="btn btn-primary"onclick="document.getElementById('modal-add-income').style.display='block'" >Add income</button>
+      </div>
+    </div>
+  </div>
+  <div  class="col-sm-12 col-lg-6">
+    <div class="card border-primary mb-3 h-100">
+      <div class="card-header">Expense details</div>
+      <div class="card-body">
+        <p class="card-text">Click button to view your expense details</p>
+        <a class="btn btn-primary" href="/users/viewDetails">View details</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="container-fluid content-row" style="margin:10px 0 10px 0;">
+  <div class="row">
+    <div class="col-sm-12 col-lg-6">
+      <div class = "card border-primary mb-3 h-100">
+        <div class="card-header">Populate database</div>
+          <div class="card-body">
+            <p>Add/Delete/Edit expenses</p>
+            <button type="button" class="btn btn-primary" onclick="document.getElementById('modal-add').style.display='block'" >Add expense</button>
+            <button type="button" class="btn btn-primary" onclick="document.getElementById('modal-edit').style.display='block'" >Edit expense</button>
+            <button type="button" class="btn btn-primary" onclick="document.getElementById('modal-delete').style.display='block'" >Delete expense</button>
+          </div>
+      </div>
+    </div>
+    <div  class="col-sm-12 col-lg-6">
+      <div class="card border-primary mb-3 h-100">
+        <div class="card-header">Chart</div>
+          <div class="card-body">
+            <p class="card-text">Click button to view your expense chart</p>
+            <a class="btn btn-primary" href="/users/viewChart">View chart</a>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modals -->
+
+<!--Income modal-->
+<div class="modal" id="modal-add-income">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add income</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="document.getElementById('modal-add-income').style.display='none'">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/users/addIncome" method="POST">
+            <div class="form-group">
+              <label for="Amount">Amount</label>
+              <input type="number" class="form-control" id="amount" name="amount" placeholder="Amount">
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="document.getElementById('modal-add-income').style.display='none'">Close</button>
+            </div>
+        </form>
+      </div> 
+    </div>
+  </div>
+</div>
+
+<!-- Adding expense modal-->
+<div class="modal" id="modal-add">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add expense</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="document.getElementById('modal-add').style.display='none'">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/users/addExpense" method="POST">
+          <div class="form-group">
+            <label for="Reason">Reason</label>
+            <input type="text" class="form-control" id="reason"  name ="reason" placeholder="Enter reason">
+          </div>
+          <div class="form-group">
+            <label for="Amount">Amount</label>
+            <input type="number" class="form-control" id="amount" name ="amount" placeholder="Amount">
+          </div>
+          <div class="form-group">
+            <label for="Amount">Date</label>
+            <input type="date" class="form-control" id="amount" name ="date" placeholder="date">
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="document.getElementById('modal-add').style.display='none'">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete expense modal-->
+<div class="modal" id="modal-delete">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete expense</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="document.getElementById('modal-delete').style.display='none'">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/users/deleteExpense" method="POST">
+          <div class="form-group">
+            <label for="name">Sl No</label>
+            <input type="number" class="form-control" id="sl_no"  name="slNo" placeholder="Sl. No">
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="document.getElementById('modal-delete').style.display='none'">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit expense modal-->
+<div class="modal" id="modal-edit">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit expense</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="document.getElementById('modal-edit').style.display='none'">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/users/editExpense" method="POST">
+          <div class="form-group">
+            <label for="name">Sl No</label>
+            <input type="number" class="form-control" id="sl_no"  name="slNo" placeholder="Sl. No">
+          </div>
+          <div class="form-group">
+            <label for="Reason">Reason</label>
+            <input type="text" class="form-control" id="reason"  name="reason" placeholder="Enter reason">
+          </div>
+          <div class="form-group">
+            <label for="Amount">Amount</label>
+            <input type="number" class="form-control" id="amount" name="amount" placeholder="Amount">
+          </div>
+          <div class="form-group">
+            <label for="Amount">Date</label>
+            <input type="date" class="form-control" id="amount" name ="date" placeholder="date">
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="document.getElementById('modal-edit').style.display='none'">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Footer-->
+<footer class="page-footer font-small pt-4" id="about" style="background-color: #eeeeee; margin-top:20px;">
+  <div class="container-fluid text-center text-md-left">
+    <div class="row">
+      <div class="col-md-6 mt-md-0 mt-3">
+        <h5 class="text-uppercase">About the developer</h5>
+        <p>Shrinidhi T S<br>I am a computer science undergraduate.<br>Programmer | Full Stack Web developer.</p>
+      </div>
+      <hr class="clearfix w-100 d-md-none pb-3">
+      <div class="col-md-3 mb-md-0 mb-3">
+      </div>
+      <div class="col-md-3 mb-md-0 mb-3">
+        <h5 class="text-uppercase">Links</h5>
+        <ul class="list-unstyled">
+          <li>
+            <a href="mailto:shrinidhits1208@gmail.com">Mail me</a>
+          </li>
+          <li>
+            <a href="https://github.com/shrinidhits" target="_blank">Github profile</a>
+          </li>
+          <li>
+            <a href="">My website</a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/in/shrinidhi-t-s-2601b61a5/" target="_blank">Connect with me on LinkedIn</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright text-center py-3">© 2021 Copyright:
+      <h5>Shrinidhi T S</h5>
+  </div>
+</footer>
